@@ -1,0 +1,161 @@
+import pandas as pd
+
+df = pd.read_csv(r"C:\Users\d\Downloads\KaggleV2-May-2016.csv.zip")
+print("Dataset Loaded. Shape:", df.shape)
+
+print("\n--- First 5 Rows ---")
+print(df.head())
+
+print("\n--- Column Info ---")
+print(df.info())
+
+print("\n--- Missing Values ---")
+print(df.isnull().sum())
+
+# Check if the necessary columns exist
+columns_to_fill = ['director', 'cast', 'country', 'date_added', 'rating', 'duration']
+
+for col in columns_to_fill:
+    if col in df.columns:
+        df[col].fillna("Unknown" if col != 'date_added' else "01 January, 2000", inplace=True)
+    else:
+        print(f"Column '{col}' is missing!")
+# Dictionary to store default values for each column
+defaults = {
+    'director': 'Unknown',
+    'cast': 'Unknown',
+    'country': 'Unknown',
+    'date_added': '01 January, 2000',
+    'rating': 'Not Rated',
+    'duration': '0'
+}
+
+# Loop through each column and fill missing values
+for col, default in defaults.items():
+    if col in df.columns:
+        df[col].fillna(default, inplace=True)
+    else:
+        print(f"Column '{col}' is missing!")
+print(df.isnull().sum())
+import pandas as pd
+
+# Assuming df is already defined
+
+# Check if 'date_added' column exists before filling NaN values
+if 'date_added' in df.columns:
+    df['date_added'].fillna(pd.to_datetime("2000-01-01"), inplace=True)
+else:
+    print("Column 'date_added' is missing!")
+
+# Clean column names: convert to lowercase, strip, and replace non-alphanumeric characters with '_'
+df.columns = df.columns.str.lower().str.strip().str.replace(r'[^a-z0-9]', '_', regex=True)
+
+# Handle 'type' column if it exists
+if 'type' in df.columns:
+    df['type'] = df['type'].str.strip().str.lower().str.capitalize()
+else:
+    print("Column 'type' is missing!")
+
+# Handle 'country' column if it exists
+if 'country' in df.columns:
+    df['country'] = df['country'].str.strip()
+else:
+    print("Column 'country' is missing!")
+
+
+
+OUTPUT
+Dataset Loaded. Shape: (110527, 14)
+
+--- First 5 Rows ---
+      PatientId  AppointmentID Gender          ScheduledDay  \
+0  2.987250e+13        5642903      F  2016-04-29T18:38:08Z   
+1  5.589978e+14        5642503      M  2016-04-29T16:08:27Z   
+2  4.262962e+12        5642549      F  2016-04-29T16:19:04Z   
+3  8.679512e+11        5642828      F  2016-04-29T17:29:31Z   
+4  8.841186e+12        5642494      F  2016-04-29T16:07:23Z   
+
+         AppointmentDay  Age      Neighbourhood  Scholarship  Hipertension  \
+0  2016-04-29T00:00:00Z   62    JARDIM DA PENHA            0             1   
+1  2016-04-29T00:00:00Z   56    JARDIM DA PENHA            0             0   
+2  2016-04-29T00:00:00Z   62      MATA DA PRAIA            0             0   
+3  2016-04-29T00:00:00Z    8  PONTAL DE CAMBURI            0             0   
+4  2016-04-29T00:00:00Z   56    JARDIM DA PENHA            0             1   
+
+   Diabetes  Alcoholism  Handcap  SMS_received No-show  
+0         0           0        0             0      No  
+1         0           0        0             0      No  
+2         0           0        0             0      No  
+3         0           0        0             0      No  
+4         1           0        0             0      No  
+
+--- Column Info ---
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 110527 entries, 0 to 110526
+Data columns (total 14 columns):
+ #   Column          Non-Null Count   Dtype  
+---  ------          --------------   -----  
+ 0   PatientId       110527 non-null  float64
+ 1   AppointmentID   110527 non-null  int64  
+ 2   Gender          110527 non-null  object 
+ 3   ScheduledDay    110527 non-null  object 
+ 4   AppointmentDay  110527 non-null  object 
+ 5   Age             110527 non-null  int64  
+ 6   Neighbourhood   110527 non-null  object 
+ 7   Scholarship     110527 non-null  int64  
+ 8   Hipertension    110527 non-null  int64  
+ 9   Diabetes        110527 non-null  int64  
+ 10  Alcoholism      110527 non-null  int64  
+ 11  Handcap         110527 non-null  int64  
+ 12  SMS_received    110527 non-null  int64  
+ 13  No-show         110527 non-null  object 
+dtypes: float64(1), int64(8), object(5)
+memory usage: 11.8+ MB
+None
+
+--- Missing Values ---
+PatientId         0
+AppointmentID     0
+Gender            0
+ScheduledDay      0
+AppointmentDay    0
+Age               0
+Neighbourhood     0
+Scholarship       0
+Hipertension      0
+Diabetes          0
+Alcoholism        0
+Handcap           0
+SMS_received      0
+No-show           0
+dtype: int64
+Column 'director' is missing!
+Column 'cast' is missing!
+Column 'country' is missing!
+Column 'date_added' is missing!
+Column 'rating' is missing!
+Column 'duration' is missing!
+Column 'director' is missing!
+Column 'cast' is missing!
+Column 'country' is missing!
+Column 'date_added' is missing!
+Column 'rating' is missing!
+Column 'duration' is missing!
+PatientId         0
+AppointmentID     0
+Gender            0
+ScheduledDay      0
+AppointmentDay    0
+Age               0
+Neighbourhood     0
+Scholarship       0
+Hipertension      0
+Diabetes          0
+Alcoholism        0
+Handcap           0
+SMS_received      0
+No-show           0
+dtype: int64
+Column 'date_added' is missing!
+Column 'type' is missing!
+Column 'country' is missing!
